@@ -32,6 +32,9 @@
         }
     },
     "scripts": {
+        "pre-autoload-dump": [
+            "Aws\\Script\\Composer\\Composer::removeUnusedServices"
+        ],
         "test": [
             "@php artisan config:clear --ansi @no_additional_args",
             "@php artisan test"
@@ -57,7 +60,21 @@
     "extra": {
         "laravel": {
             "dont-discover": []
-        }
+        },
+        "aws/aws-sdk-php": [
+            "CloudWatchLogs",
+            "DynamoDb",
+            "Lambda",
+            "S3",
+            "SSO",
+            "SSOOIDC",
+            "Ses",
+            "SesV2",
+            "Signin",
+            "Sqs",
+            "Ssm",
+            "Sts"
+        ]
     },
     "config": {
         "optimize-autoloader": true,
