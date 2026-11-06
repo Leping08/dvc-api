@@ -4,38 +4,31 @@ namespace App\Mail;
 
 use App\Models\Lead;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class LeadEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $lead;
+    public function __construct(protected Lead $lead) {}
 
-    /**
-     * Create a new message instance.
-     *
-     * @param  Lead  $lead
-     */
-    public function __construct(Lead $lead)
+    public function envelope(): Envelope
     {
-        $this->lead = $lead;
+        return new Envelope(
+            from: new Address('leads@deltavcreative.com'),
+            subject: 'DVC Website Lead',
+        );
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
+    public function content(): Content
     {
-        return $this->markdown('emails.lead')
-            ->subject('DVC Website Lead')
-            ->from('leads@deltavcreative.com')
-            ->with([
-                'lead' => $this->lead,
-            ]);
+        return new Content(
+            markdown: 'emails.lead',
+            with: ['lead' => $this->lead],
+        );
     }
 }

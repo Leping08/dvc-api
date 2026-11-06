@@ -5,11 +5,13 @@ environments:
         database: production
         memory: 1024
         cli-memory: 512
-        runtime: php-7.4
+        runtime: 'php-8.5:al2023'
         domain: api.deltavcreative.com
+        scheduler: false
         build:
-            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
+            - 'composer install --no-dev'
             - 'php artisan event:cache'
-            - 'npm ci && npm run prod && rm -rf node_modules'
+            - 'php artisan filament:optimize'
+            - 'npm ci && npm run build && rm -rf node_modules'
         deploy:
-              - 'php artisan migrate --force'
+            - 'php artisan migrate --force'

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class LeadController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request): array
     {
         $validated = $request->validate([
             'name' => 'required|max:255',
